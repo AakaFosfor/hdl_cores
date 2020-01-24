@@ -13,6 +13,7 @@ set SRC_DIR=..\src
 
 echo Simulating module %MODULE%
 
+ghdl -a %GHDL_OPT% %SRC_DIR%\Functions_pkg.vhd 
 ghdl -a %GHDL_OPT% %SRC_DIR%\%MODULE%.vhd 
 ghdl -a %GHDL_OPT% %SRC_DIR%\%MODULE%_tb.vhd 
 
