@@ -2,7 +2,7 @@
 -- Aaka Fosfor, 2020
 -- https://github.com/AakaFosfor/hdl_cores
 --
--- state: draft, not tested
+-- state: final
 
 library ieee;
 use ieee.std_logic_1164.all;
