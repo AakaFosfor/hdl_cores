@@ -10,25 +10,25 @@ use ieee.numeric_std.all;
 
 entity RotaryEncoder
   generic (
-    G_WIDTH: integer := 8
-    G_DEBOUNCE_TIME: time := 50 ms;
+    G_WIDTH         : positive := 8
+    G_DEBOUNCE_TIME : time := 50 ms;
   );
   port (
-    Clk_ik: in std_logic;
-    Reset_ir: in std_logic;
-    EncA_i: in std_logic;
-    EncB_i: in std_logic;
-    Position_ob: out unsigned(G_WIDTH-1 downto 0)
+    Clk_ik      : in  std_logic;
+    Reset_ir    : in  std_logic;
+    EncA_i      : in  std_logic;
+    EncB_i      : in  std_logic;
+    Position_ob : out unsigned(G_WIDTH-1 downto 0)
   );
 end entity;
 
 architecture rtl of RotaryEncoder is
 
-  signal EncADebounced: std_logic;
-  signal EncBDebounced: std_logic;
-  signal EncBDebounced_d: std_logic;
-  signal PositionChanged: std_logic;
-  signal Position_b: unsigned(G_WIDTH-1 downto 0) := (others => '0');
+  signal EncADebounced   : std_logic;
+  signal EncBDebounced   : std_logic;
+  signal EncBDebounced_d : std_logic;
+  signal PositionChanged : std_logic;
+  signal Position_b      : unsigned(G_WIDTH-1 downto 0) := (others => '0');
 
 begin
 
@@ -37,7 +37,7 @@ begin
       G_DEBOUNCE_TIME => G_DEBOUNCE_TIME
     )
     port map (
-      Clk_ik => Clk_ik,
+      Clk_ik   => Clk_ik,
       Reset_ir => Reset_ir,
       Signal_i => EncA_i,
       Signal_o => EncADebounced
@@ -48,7 +48,7 @@ begin
       G_DEBOUNCE_TIME => G_DEBOUNCE_TIME
     )
     port map (
-      Clk_ik => Clk_ik,
+      Clk_ik   => Clk_ik,
       Reset_ir => Reset_ir,
       Signal_i => EncB_i,
       Signal_o => EncBDebounced
@@ -56,9 +56,9 @@ begin
 
   i_EdgeDetection: entity work.EdgeDetection
     port map (
-      Clk_ik => Clk_ik,
-      Reset_ir => Reset_ir,
-      Signal_i => EncADebounced,
+      Clk_ik       => Clk_ik,
+      Reset_ir     => Reset_ir,
+      Signal_i     => EncADebounced,
       RisingEdge_o => PositionChanged
     );
 
