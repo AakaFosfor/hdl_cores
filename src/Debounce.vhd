@@ -2,32 +2,34 @@
 -- Aaka Fosfor, 2019
 -- https://github.com/AakaFosfor/hdl_cores
 --
--- state: draft, not tested
+-- state: final
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity Debounce
+use work.Functions_pkg.all;
+
+entity Debounce is
   generic (
-    G_CLK_FREQUENCY: real; -- in Hz
-    G_DEBOUNCE_TIME: time := 20 ms
+    G_CLK_FREQUENCY : real; -- in Hz
+    G_DEBOUNCE_TIME : time := 20 ms
   );
   port (
-    Clk_ik: in std_logic;
-    Reset_ir: in std_logic;
-    Signal_i: in std_logic;
-    Signal_o: in std_logic := '0'
+    Clk_ik   : in  std_logic;
+    Reset_ir : in  std_logic;
+    Signal_i : in  std_logic;
+    Signal_o : out std_logic := '0'
   );
 end entity;
 
 architecture rtl of Debounce is
 
-  constant C_COUNTER_MAX: integer := G_CLK_FREQUENCY * G_DEBOUNCE_TIME / 1 s;
-  constant C_COUNTER_WIDTH: positive := clog2(C_COUNTER_MAX);
+  constant C_COUNTER_MAX   : integer := G_CLK_FREQUENCY * G_DEBOUNCE_TIME / 1 sec;
+  constant C_COUNTER_WIDTH : positive := clog2(C_COUNTER_MAX);
 
-  signal Signal_d: std_logic;
-  signal Counter_b: unsigned(C_COUNTER_WIDTH-1 downto 0) := to_unsigned(C_COUNTER_MAX, C_COUNTER_WIDTH);
+  signal Signal_d  : std_logic;
+  signal Counter_b : unsigned(C_COUNTER_WIDTH-1 downto 0) := to_unsigned(C_COUNTER_MAX, C_COUNTER_WIDTH);
 
 begin
 
@@ -39,7 +41,7 @@ begin
 
   p_Debounce: process(Clk_ik) is begin
     if rising_edge(Clk_ik) then
-      if Reset_ir or (Signal_d /= Signal_i) then
+      if (Reset_ir = '1') or (Signal_d /= Signal_i) then
         Counter_b <= to_unsigned(C_COUNTER_MAX, C_COUNTER_WIDTH);
       else
         if or Counter_b = '1' then
