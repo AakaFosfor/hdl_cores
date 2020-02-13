@@ -21,4 +21,4 @@ ghdl -e %GHDL_OPT% %MODULE%_tb
 
 ghdl -r %GHDL_OPT% %MODULE%_tb --vcd=%MODULE%_tb.vcd
 
-gtkwave %MODULE%_tb.vcd
+gtkwave --script=sim.tcl %MODULE%_tb.vcd
