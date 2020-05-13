@@ -9,13 +9,13 @@ set signals [list]
 for {set i 0} {$i < $nfacs } {incr i} {
   set facname [ gtkwave::getFacName $i ]
   set indx [ string first "\." $facname [expr [ string first "\." $facname  ] + 1 ] ]
-  if {$indx != -1} {
+  if {$indx == -1} {
     lappend signals "$facname"
   }
 }
 
 set ll [ llength $signals ]
-puts "number of signals in DUT: $ll"
+puts "number of signals in TB: $ll"
 
 set num_added [ gtkwave::addSignalsFromList $signals ]
 puts "num signals added: $num_added"
