@@ -17,6 +17,7 @@ package Functions_pkg is
     impure function getReal(maxVal : real := 1.0; minVal : real := 0.0) return real;
     impure function getInteger(maxVal : integer := 1; minVal : integer := 0) return integer;
     impure function getTime(maxVal : time := 1 ns; minVal : time := 0 ns; unit : time := ns) return time;
+    impure function getBoolean return boolean;
   end protected;
 
 end package;
@@ -56,6 +57,10 @@ package body Functions_pkg is
       minValInt := minVal / unit;
       intValue := getInteger(maxValInt, minValInt);
       return intValue * unit;
+    end function;
+    
+    impure function getBoolean return boolean is begin
+      return getInteger = 1;
     end function;
     
   end protected body;

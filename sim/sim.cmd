@@ -16,8 +16,7 @@ if not exist %SRC_DIR%\%MODULE%_tb.vhd (
 
 del %MODULE%_tb.vcd > NUL 2>&1
 
-echo Simulating module %MODULE%
-
+echo Compiling module %MODULE% testbench
 ghdl -a %GHDL_OPT% %SRC_DIR%\Functions_pkg.vhd
 if "%1" neq "" echo Compiling dependency...
 :dependencyLoop
@@ -29,8 +28,10 @@ if "%1" neq "" (
 ghdl -a %GHDL_OPT% %SRC_DIR%\%MODULE%.vhd
 ghdl -a %GHDL_OPT% %SRC_DIR%\%MODULE%_tb.vhd
 
+echo Elaborating module %MODULE% testbench
 ghdl -e %GHDL_OPT% %MODULE%_tb
 
+echo Simulating module %MODULE% testbench
 ghdl -r %GHDL_OPT% %MODULE%_tb --vcd=%MODULE%_tb.vcd
 
 if exist %MODULE%_tb.vcd gtkwave --script=sim.tcl %MODULE%_tb.vcd

@@ -2,16 +2,20 @@
 -- Aaka Fosfor, 2019
 -- https://github.com/AakaFosfor/hdl_cores
 --
--- state: draft
+-- state: final
+--
+-- Pulse A -> pulse B: increment position
+-- Pulse B -> pulse A: decrement position
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity RotaryEncoder
+entity RotaryEncoder is
   generic (
-    G_WIDTH         : positive := 8
+    G_CLK_FREQUENCY : real; -- in Hz
     G_DEBOUNCE_TIME : time := 50 ms;
+    G_WIDTH         : positive := 8
   );
   port (
     Clk_ik      : in  std_logic;
@@ -34,6 +38,7 @@ begin
 
   i_DebounceA: entity work.Debounce
     generic map (
+      G_CLK_FREQUENCY => G_CLK_FREQUENCY,
       G_DEBOUNCE_TIME => G_DEBOUNCE_TIME
     )
     port map (
@@ -45,6 +50,7 @@ begin
 
   i_DebounceB: entity work.Debounce
     generic map (
+      G_CLK_FREQUENCY => G_CLK_FREQUENCY,
       G_DEBOUNCE_TIME => G_DEBOUNCE_TIME
     )
     port map (
@@ -74,7 +80,7 @@ begin
       if Reset_ir then
         Position_b <= (others => '0');
       elsif PositionChanged then
-        if EncBDebounced_d = 1 then
+        if not EncBDebounced_d then
           Position_b <= Position_b + 1;
         else
           Position_b <= Position_b - 1;
