@@ -4,6 +4,7 @@ if [%1]==[] goto help
 if [%1]==[-h] goto help
 
 set MODULE=%1
+shift
 set GHDL_OPT=--std=08
 set SRC_DIR=..\src
 
@@ -18,6 +19,13 @@ del %MODULE%_tb.vcd > NUL 2>&1
 echo Simulating module %MODULE%
 
 ghdl -a %GHDL_OPT% %SRC_DIR%\Functions_pkg.vhd
+if "%1" neq "" echo Compiling dependency...
+:dependencyLoop
+if "%1" neq "" (
+  ghdl -a %GHDL_OPT% %SRC_DIR%\%1.vhd
+  shift
+  goto dependencyLoop
+)
 ghdl -a %GHDL_OPT% %SRC_DIR%\%MODULE%.vhd
 ghdl -a %GHDL_OPT% %SRC_DIR%\%MODULE%_tb.vhd
 
@@ -30,4 +38,4 @@ if exist %MODULE%_tb.vcd gtkwave --script=sim.tcl %MODULE%_tb.vcd
 goto :eof
 
 :help
-  echo usage: %0 ^<module^>
+  echo usage: %0 ^<module^> [dependency1], [dependency2], ...
