@@ -7,6 +7,10 @@
 
 ## HDL
 
+* synchronous reset
+* default values for control signals and out ports driven in the entity
+* VHDL keywords lowecase
+
 ### Signal and Port Naming
 
 In general: CamelCase, even abbreviations (UartFifoModule).
