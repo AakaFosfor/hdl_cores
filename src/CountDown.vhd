@@ -1,4 +1,4 @@
--- Counter
+-- CountDown
 -- Aaka Fosfor, 2020
 -- https://github.com/AakaFosfor/hdl_cores
 --
