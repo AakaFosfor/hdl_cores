@@ -29,7 +29,7 @@ begin
   p_ReseSync: process (Clk_ik, Reset_iar) is begin
     if Reset_iar then
       ResetSync_b <= (others => '1');
-    else if rising_edge(Clk_ik) then
+    elsif rising_edge(Clk_ik) then
       ResetSync_b <= '0' & ResetSync_b(ResetSync_b'left downto 1);
     end if;
   end process;
