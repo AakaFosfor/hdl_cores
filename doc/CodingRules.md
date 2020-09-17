@@ -22,6 +22,8 @@ All uppercase with underscores only for: constants, generics, types (C_DATA_WIDT
 | | Output port | \_o | Overflow_o |
 | | Clock | \_k | Clk_c |
 | | Reset | \_r | Reset_r |
+| | Active low | \_n | Reset_rn |
+| | Pulse | \_p | Activity_p |
 | | Generic bus | \_b | Data_b |
 | | Bus with actual size | \_b\[0-9\]+ | Data_b8 |
 | | Generic memory (2D array) | \_m | Memory_bm |
